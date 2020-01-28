@@ -40,6 +40,7 @@ namespace WindowsFormsSample
         private async void connectButton_Click(object sender, EventArgs e)
         {
             UpdateState(connected: false);
+
             var token = getToken();
             _connection = new HubConnectionBuilder()
                 .WithAutomaticReconnect()
