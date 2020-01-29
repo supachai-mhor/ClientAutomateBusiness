@@ -1,27 +1,30 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Security;
 using System.Windows.Forms;
 using Microsoft.AspNetCore.SignalR.Client;
-using System.IdentityModel;
-using System.Security;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using System.Linq;
 using System.Security.Claims;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Data.SqlClient;
+using System.Threading;
+
 namespace WindowsFormsSample
 {
+    
     public partial class ChatForm : Form
     {
         private HubConnection _connection;
+
+        public void AppendTextBox(string user, string message)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action<string,string>(AppendTextBox), new object[] { user, message });
+                return;
+            }
+            OnSend(user, message);
+        }
 
         public ChatForm()
         {
@@ -49,7 +52,12 @@ namespace WindowsFormsSample
                     options.AccessTokenProvider = () => Task.FromResult(token);
                 })
                 .Build();
-           //_connection.On<string, string>("broadcastMessage", (s1, s2) => OnSend(s1, s2));
+
+
+            _connection.On<string, string>("ReceiveData", (s1, s2) => OnSend(s1, s2));
+            //_connection.On<string, string>("ReceiveData", (user, message) => AppendTextBox(user, message));
+        
+            _connection.On<double, string>("ReceiveMessage", (s1, s2) => OnReceived(s1, s2));
 
             Log(Color.Gray, "Starting connection...");
             try
@@ -118,7 +126,11 @@ namespace WindowsFormsSample
         {
             Log(Color.Black, name + ": " + message);
         }
-
+        private void OnReceived(double name, string message)
+        {
+            Log(Color.Lime, name + ": " + message);
+        }
+        
         private void Log(Color color, string message)
         {
             Action callback = () =>
@@ -161,8 +173,9 @@ namespace WindowsFormsSample
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub,userName),
                 new Claim(JwtRegisteredClaimNames.Email,userName),
+                new Claim(JwtRegisteredClaimNames.Email,userName),
                 new Claim(ClaimTypes.Role,"Machine"),
-                new Claim("FactoryName","Tanjai Delivery")
+                new Claim("FactoryName",txtCompanyName.Text)
                 //new Claim(JwtRegisteredClaimNames.NameId,userName),
                 //new Claim("my key","my value"),
             };
@@ -183,7 +196,7 @@ namespace WindowsFormsSample
                 audience: "https://localhost:44377/",
                 claims: claims,
                 notBefore: DateTime.UtcNow,
-                expires:DateTime.Now.AddMonths(3),
+                expires:DateTime.Now.AddDays(1),
                 signingCredentials: credentials
                 );
 
