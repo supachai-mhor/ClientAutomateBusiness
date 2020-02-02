@@ -1,7 +1,36 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WindowsFormsSample.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AddressHubs" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://localhost:44377/ChatHub</Value>
+    </Setting>
+    <Setting Name="AdminName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">mhor.fibo7@gmail.com</Value>
+    </Setting>
+    <Setting Name="AdminPassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Mhor.fibo7</Value>
+    </Setting>
+    <Setting Name="CompanyName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Tanjai Delivery</Value>
+    </Setting>
+    <Setting Name="MachineName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ME-2001-2993</Value>
+    </Setting>
+    <Setting Name="RunningTimes" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">00:00:00</Value>
+    </Setting>
+    <Setting Name="DownTimes" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">00:00:00</Value>
+    </Setting>
+    <Setting Name="SettingTimes" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">00:00:00</Value>
+    </Setting>
+    <Setting Name="StartTime" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">08:00:00</Value>
+    </Setting>
+    <Setting Name="EndTime" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">18.00:00:00</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

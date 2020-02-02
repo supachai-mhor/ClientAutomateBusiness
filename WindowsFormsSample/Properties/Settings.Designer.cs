@@ -8,22 +8,129 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WindowsFormsSample.Properties
-{
-
-
+namespace WindowsFormsSample.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://localhost:44377/ChatHub")]
+        public string AddressHubs {
+            get {
+                return ((string)(this["AddressHubs"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mhor.fibo7@gmail.com")]
+        public string AdminName {
+            get {
+                return ((string)(this["AdminName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Mhor.fibo7")]
+        public string AdminPassword {
+            get {
+                return ((string)(this["AdminPassword"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Tanjai Delivery")]
+        public string CompanyName {
+            get {
+                return ((string)(this["CompanyName"]));
+            }
+            set {
+                this["CompanyName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ME-2001-2993")]
+        public string MachineName {
+            get {
+                return ((string)(this["MachineName"]));
+            }
+            set {
+                this["MachineName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:00")]
+        public global::System.TimeSpan RunningTimes {
+            get {
+                return ((global::System.TimeSpan)(this["RunningTimes"]));
+            }
+            set {
+                this["RunningTimes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:00")]
+        public global::System.TimeSpan DownTimes {
+            get {
+                return ((global::System.TimeSpan)(this["DownTimes"]));
+            }
+            set {
+                this["DownTimes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:00")]
+        public global::System.TimeSpan SettingTimes {
+            get {
+                return ((global::System.TimeSpan)(this["SettingTimes"]));
+            }
+            set {
+                this["SettingTimes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("08:00:00")]
+        public global::System.TimeSpan StartTime {
+            get {
+                return ((global::System.TimeSpan)(this["StartTime"]));
+            }
+            set {
+                this["StartTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("18.00:00:00")]
+        public global::System.TimeSpan EndTime {
+            get {
+                return ((global::System.TimeSpan)(this["EndTime"]));
+            }
+            set {
+                this["EndTime"] = value;
             }
         }
     }
