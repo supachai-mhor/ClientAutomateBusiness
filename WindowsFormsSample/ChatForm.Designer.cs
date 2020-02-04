@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.txtAddressHubs = new System.Windows.Forms.TextBox();
             this.connectButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,7 +49,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtCompanyName = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtOEEvalue = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.txtQtyYield = new System.Windows.Forms.TextBox();
             this.btnQtyPass = new System.Windows.Forms.TextBox();
@@ -104,10 +104,11 @@
             this.btnMachineError = new System.Windows.Forms.Button();
             this.btnNGPart = new System.Windows.Forms.Button();
             this.btnOKPart = new System.Windows.Forms.Button();
-            this.btnOutputPart = new System.Windows.Forms.Button();
             this.btnInputPart = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.dtEndTime = new System.Windows.Forms.DateTimePicker();
+            this.dtStartTime = new System.Windows.Forms.DateTimePicker();
             this.btnResetConfig = new System.Windows.Forms.Button();
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
@@ -118,8 +119,7 @@
             this.IdleTimer = new System.Windows.Forms.Timer(this.components);
             this.currentTimer = new System.Windows.Forms.Timer(this.components);
             this.updateChartTimer = new System.Windows.Forms.Timer(this.components);
-            this.dtStartTime = new System.Windows.Forms.DateTimePicker();
-            this.dtEndTime = new System.Windows.Forms.DateTimePicker();
+            this.numNGqty = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -129,6 +129,7 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numNGqty)).BeginInit();
             this.SuspendLayout();
             // 
             // txtAddressHubs
@@ -317,7 +318,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.txtOEEvalue);
             this.panel1.Controls.Add(this.label25);
             this.panel1.Controls.Add(this.txtQtyYield);
             this.panel1.Controls.Add(this.btnQtyPass);
@@ -338,19 +339,18 @@
             this.panel1.Size = new System.Drawing.Size(810, 700);
             this.panel1.TabIndex = 16;
             // 
-            // textBox1
+            // txtOEEvalue
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 35F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(270, 563);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(166, 53);
-            this.textBox1.TabIndex = 21;
-            this.textBox1.Text = "41.02%";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtOEEvalue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.txtOEEvalue.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtOEEvalue.Font = new System.Drawing.Font("Microsoft Sans Serif", 35F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.txtOEEvalue.ForeColor = System.Drawing.Color.White;
+            this.txtOEEvalue.Location = new System.Drawing.Point(270, 563);
+            this.txtOEEvalue.Name = "txtOEEvalue";
+            this.txtOEEvalue.ReadOnly = true;
+            this.txtOEEvalue.Size = new System.Drawing.Size(166, 53);
+            this.txtOEEvalue.TabIndex = 21;
+            this.txtOEEvalue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label25
             // 
@@ -377,7 +377,6 @@
             this.txtQtyYield.ReadOnly = true;
             this.txtQtyYield.Size = new System.Drawing.Size(166, 53);
             this.txtQtyYield.TabIndex = 19;
-            this.txtQtyYield.Text = "98%";
             this.txtQtyYield.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnQtyPass
@@ -391,7 +390,6 @@
             this.btnQtyPass.ReadOnly = true;
             this.btnQtyPass.Size = new System.Drawing.Size(166, 53);
             this.btnQtyPass.TabIndex = 18;
-            this.btnQtyPass.Text = "98";
             this.btnQtyPass.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtQtyInput
@@ -405,7 +403,6 @@
             this.txtQtyInput.ReadOnly = true;
             this.txtQtyInput.Size = new System.Drawing.Size(166, 53);
             this.txtQtyInput.TabIndex = 17;
-            this.txtQtyInput.Text = "100";
             this.txtQtyInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtQtyExpect
@@ -419,7 +416,6 @@
             this.txtQtyExpect.ReadOnly = true;
             this.txtQtyExpect.Size = new System.Drawing.Size(166, 53);
             this.txtQtyExpect.TabIndex = 16;
-            this.txtQtyExpect.Text = "95";
             this.txtQtyExpect.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtQtyPlan
@@ -433,7 +429,6 @@
             this.txtQtyPlan.ReadOnly = true;
             this.txtQtyPlan.Size = new System.Drawing.Size(166, 53);
             this.txtQtyPlan.TabIndex = 15;
-            this.txtQtyPlan.Text = "2000";
             this.txtQtyPlan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // groupBox1
@@ -628,7 +623,6 @@
             this.txtJobNo.ReadOnly = true;
             this.txtJobNo.Size = new System.Drawing.Size(198, 19);
             this.txtJobNo.TabIndex = 25;
-            this.txtJobNo.Text = "PE01-0021";
             // 
             // txtMachineName
             // 
@@ -681,7 +675,7 @@
             // 
             // txtBarcode
             // 
-            this.txtBarcode.BackColor = System.Drawing.Color.Gray;
+            this.txtBarcode.BackColor = System.Drawing.Color.White;
             this.txtBarcode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtBarcode.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.txtBarcode.ForeColor = System.Drawing.Color.DarkRed;
@@ -692,6 +686,8 @@
             this.txtBarcode.TabIndex = 20;
             this.txtBarcode.Text = "Scan Barcode";
             this.txtBarcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtBarcode.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtBarcode_MouseClick);
+            this.txtBarcode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBarcode_KeyPress);
             // 
             // label15
             // 
@@ -1004,19 +1000,19 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.numNGqty);
             this.groupBox2.Controls.Add(this.label21);
             this.groupBox2.Controls.Add(this.cmbErrorReason);
             this.groupBox2.Controls.Add(this.btnSubmitError);
             this.groupBox2.Controls.Add(this.btnMachineError);
             this.groupBox2.Controls.Add(this.btnNGPart);
             this.groupBox2.Controls.Add(this.btnOKPart);
-            this.groupBox2.Controls.Add(this.btnOutputPart);
             this.groupBox2.Controls.Add(this.btnInputPart);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(8, 431);
+            this.groupBox2.Location = new System.Drawing.Point(8, 398);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(415, 192);
+            this.groupBox2.Size = new System.Drawing.Size(415, 225);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Machine Event";
@@ -1029,7 +1025,7 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label21.ForeColor = System.Drawing.Color.Red;
-            this.label21.Location = new System.Drawing.Point(220, 95);
+            this.label21.Location = new System.Drawing.Point(220, 132);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(181, 25);
             this.label21.TabIndex = 28;
@@ -1049,7 +1045,7 @@
             "Material Error",
             "Human Error",
             "Other Error"});
-            this.cmbErrorReason.Location = new System.Drawing.Point(219, 140);
+            this.cmbErrorReason.Location = new System.Drawing.Point(219, 177);
             this.cmbErrorReason.Name = "cmbErrorReason";
             this.cmbErrorReason.Size = new System.Drawing.Size(186, 32);
             this.cmbErrorReason.TabIndex = 27;
@@ -1059,7 +1055,7 @@
             // 
             this.btnSubmitError.BackColor = System.Drawing.Color.Chocolate;
             this.btnSubmitError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnSubmitError.Location = new System.Drawing.Point(21, 140);
+            this.btnSubmitError.Location = new System.Drawing.Point(21, 177);
             this.btnSubmitError.Name = "btnSubmitError";
             this.btnSubmitError.Size = new System.Drawing.Size(186, 33);
             this.btnSubmitError.TabIndex = 26;
@@ -1071,7 +1067,7 @@
             // 
             this.btnMachineError.BackColor = System.Drawing.Color.Red;
             this.btnMachineError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnMachineError.Location = new System.Drawing.Point(21, 88);
+            this.btnMachineError.Location = new System.Drawing.Point(21, 125);
             this.btnMachineError.Name = "btnMachineError";
             this.btnMachineError.Size = new System.Drawing.Size(186, 42);
             this.btnMachineError.TabIndex = 25;
@@ -1083,82 +1079,74 @@
             // 
             this.btnNGPart.BackColor = System.Drawing.Color.OrangeRed;
             this.btnNGPart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnNGPart.Location = new System.Drawing.Point(318, 31);
+            this.btnNGPart.Location = new System.Drawing.Point(240, 42);
             this.btnNGPart.Name = "btnNGPart";
             this.btnNGPart.Size = new System.Drawing.Size(87, 42);
             this.btnNGPart.TabIndex = 24;
             this.btnNGPart.Text = "NG";
             this.btnNGPart.UseVisualStyleBackColor = false;
+            this.btnNGPart.Click += new System.EventHandler(this.btnNGPart_Click);
             // 
             // btnOKPart
             // 
             this.btnOKPart.BackColor = System.Drawing.Color.Lime;
             this.btnOKPart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnOKPart.Location = new System.Drawing.Point(219, 31);
+            this.btnOKPart.Location = new System.Drawing.Point(130, 42);
             this.btnOKPart.Name = "btnOKPart";
             this.btnOKPart.Size = new System.Drawing.Size(87, 42);
             this.btnOKPart.TabIndex = 23;
             this.btnOKPart.Text = "OK";
             this.btnOKPart.UseVisualStyleBackColor = false;
-            // 
-            // btnOutputPart
-            // 
-            this.btnOutputPart.BackColor = System.Drawing.Color.OrangeRed;
-            this.btnOutputPart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnOutputPart.Location = new System.Drawing.Point(120, 31);
-            this.btnOutputPart.Name = "btnOutputPart";
-            this.btnOutputPart.Size = new System.Drawing.Size(87, 42);
-            this.btnOutputPart.TabIndex = 22;
-            this.btnOutputPart.Text = "OUT";
-            this.btnOutputPart.UseVisualStyleBackColor = false;
+            this.btnOKPart.Click += new System.EventHandler(this.btnOKPart_Click);
             // 
             // btnInputPart
             // 
-            this.btnInputPart.BackColor = System.Drawing.Color.Lime;
+            this.btnInputPart.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.btnInputPart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnInputPart.Location = new System.Drawing.Point(21, 31);
+            this.btnInputPart.Location = new System.Drawing.Point(21, 42);
             this.btnInputPart.Name = "btnInputPart";
             this.btnInputPart.Size = new System.Drawing.Size(87, 42);
             this.btnInputPart.TabIndex = 21;
             this.btnInputPart.Text = "IN";
             this.btnInputPart.UseVisualStyleBackColor = false;
+            this.btnInputPart.Click += new System.EventHandler(this.btnInputPart_Click);
             // 
             // chart1
             // 
             this.chart1.BackColor = System.Drawing.Color.Black;
             this.chart1.BorderlineColor = System.Drawing.Color.Empty;
-            chartArea2.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
-            chartArea2.BackColor = System.Drawing.Color.Black;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Alignment = System.Drawing.StringAlignment.Center;
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea1.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
+            chartArea1.BackColor = System.Drawing.Color.Black;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Alignment = System.Drawing.StringAlignment.Center;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(16, 38);
             this.chart1.Name = "chart1";
-            series2.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series2.Color = System.Drawing.Color.Black;
-            series2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            series2.IsValueShownAsLabel = true;
-            series2.LabelForeColor = System.Drawing.Color.Empty;
-            series2.LabelToolTip = "#VAL{P}";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.String;
-            series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series2);
+            series1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series1.Color = System.Drawing.Color.Black;
+            series1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            series1.IsValueShownAsLabel = true;
+            series1.LabelForeColor = System.Drawing.Color.Empty;
+            series1.LabelToolTip = "#VAL{P}";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.String;
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(405, 362);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-            title2.Alignment = System.Drawing.ContentAlignment.TopLeft;
-            title2.BackColor = System.Drawing.Color.Black;
-            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
-            title2.ForeColor = System.Drawing.Color.DarkOrange;
-            title2.Name = "title";
-            title2.Text = "      Overall Timeline Chart";
-            this.chart1.Titles.Add(title2);
+            title1.Alignment = System.Drawing.ContentAlignment.TopLeft;
+            title1.BackColor = System.Drawing.Color.Black;
+            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
+            title1.ForeColor = System.Drawing.Color.DarkOrange;
+            title1.Name = "title";
+            title1.Text = "      Overall Timeline Chart";
+            this.chart1.Titles.Add(title1);
             // 
             // tabPage1
             // 
@@ -1191,6 +1179,28 @@
             this.tabPage1.Size = new System.Drawing.Size(429, 662);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Config";
+            // 
+            // dtEndTime
+            // 
+            this.dtEndTime.CustomFormat = "HH:mm:ss";
+            this.dtEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtEndTime.Location = new System.Drawing.Point(303, 171);
+            this.dtEndTime.Name = "dtEndTime";
+            this.dtEndTime.ShowUpDown = true;
+            this.dtEndTime.Size = new System.Drawing.Size(103, 30);
+            this.dtEndTime.TabIndex = 54;
+            this.dtEndTime.Value = new System.DateTime(2020, 2, 2, 0, 0, 0, 0);
+            // 
+            // dtStartTime
+            // 
+            this.dtStartTime.CustomFormat = "HH:mm:ss";
+            this.dtStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtStartTime.Location = new System.Drawing.Point(122, 171);
+            this.dtStartTime.Name = "dtStartTime";
+            this.dtStartTime.ShowUpDown = true;
+            this.dtStartTime.Size = new System.Drawing.Size(103, 30);
+            this.dtStartTime.TabIndex = 53;
+            this.dtStartTime.Value = new System.DateTime(2020, 2, 2, 8, 0, 0, 0);
             // 
             // btnResetConfig
             // 
@@ -1276,27 +1286,13 @@
             this.updateChartTimer.Interval = 500;
             this.updateChartTimer.Tick += new System.EventHandler(this.updateChartTimer_Tick);
             // 
-            // dtStartTime
+            // numNGqty
             // 
-            this.dtStartTime.CustomFormat = "HH:mm:ss";
-            this.dtStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtStartTime.Location = new System.Drawing.Point(122, 171);
-            this.dtStartTime.Name = "dtStartTime";
-            this.dtStartTime.ShowUpDown = true;
-            this.dtStartTime.Size = new System.Drawing.Size(103, 30);
-            this.dtStartTime.TabIndex = 53;
-            this.dtStartTime.Value = new System.DateTime(2020, 2, 2, 8, 0, 0, 0);
-            // 
-            // dtEndTime
-            // 
-            this.dtEndTime.CustomFormat = "HH:mm:ss";
-            this.dtEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtEndTime.Location = new System.Drawing.Point(303, 171);
-            this.dtEndTime.Name = "dtEndTime";
-            this.dtEndTime.ShowUpDown = true;
-            this.dtEndTime.Size = new System.Drawing.Size(103, 30);
-            this.dtEndTime.TabIndex = 54;
-            this.dtEndTime.Value = new System.DateTime(2020, 2, 2, 0, 0, 0, 0);
+            this.numNGqty.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.numNGqty.Location = new System.Drawing.Point(345, 47);
+            this.numNGqty.Name = "numNGqty";
+            this.numNGqty.Size = new System.Drawing.Size(56, 32);
+            this.numNGqty.TabIndex = 30;
             // 
             // ChatForm
             // 
@@ -1326,6 +1322,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numNGqty)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1392,7 +1389,6 @@
         private System.Windows.Forms.Button btnMachineError;
         private System.Windows.Forms.Button btnNGPart;
         private System.Windows.Forms.Button btnOKPart;
-        private System.Windows.Forms.Button btnOutputPart;
         private System.Windows.Forms.Button btnInputPart;
         private System.Windows.Forms.ComboBox cmbErrorReason;
         private System.Windows.Forms.Label label21;
@@ -1410,7 +1406,7 @@
         private System.Windows.Forms.TextBox txtStartTime;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Timer currentTimer;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtOEEvalue;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Button btnSaveConfig;
         private System.Windows.Forms.Timer updateChartTimer;
@@ -1419,6 +1415,7 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.DateTimePicker dtStartTime;
         private System.Windows.Forms.DateTimePicker dtEndTime;
+        private System.Windows.Forms.NumericUpDown numNGqty;
     }
 }
 

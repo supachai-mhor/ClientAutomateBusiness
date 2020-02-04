@@ -11,6 +11,7 @@ using System.Threading;
 using System.Configuration;
 using System.Collections.Specialized;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace WindowsFormsSample
 {
@@ -30,10 +31,23 @@ namespace WindowsFormsSample
         public TimeSpan bbcountSettingtimes;
         public TimeSpan bbcountIdletimes;
 
-       // public TimeSpan countUncounttimes;
         public TimeSpan startTime;
         public TimeSpan endTime;
         private TimeSpan tikerTime;
+
+
+        //data from server by job number
+        private int planQty = 5000;
+        private int expectRatio = 95;
+        private int qtyPerInput = 50 ;
+        
+        private int expectValue = 0;
+        private int totalInput = 0;
+        private int totalPass = 0;
+        private double yieldValue = 0.0;
+        private double OEEValue = 0.0;
+        private bool getJobFromHubs = false;
+
         public void AppendTextBox(string user, string message)
         {
             if (InvokeRequired)
@@ -113,14 +127,14 @@ namespace WindowsFormsSample
         
         private void ChatForm_Load(object sender, EventArgs e)
         {
-            txtMessage.Focus();
+            //txtMessage.Focus();
             //txtAddressHubs.Focus();
-            //txtBarcode.Focus();
+            txtBarcode.Focus();
         }
 
         private void addressTextBox_Enter(object sender, EventArgs e)
         {
-            AcceptButton = connectButton;
+            //AcceptButton = connectButton;
         }
         private async void connectButton_Click(object sender, EventArgs e)
         {
@@ -139,7 +153,7 @@ namespace WindowsFormsSample
             _connection.On<string, string>("ReceiveData", (s1, s2) => OnSend(s1, s2));
             //_connection.On<string, string>("ReceiveData", (user, message) => AppendTextBox(user, message));
         
-            _connection.On<double, string>("ReceiveMessage", (s1, s2) => OnReceived(s1, s2));
+            _connection.On<string>("ReceiveJobDetail", (s1) => OnReceived(s1));
 
             Log(Color.Gray, "Starting connection...");
             try
@@ -178,7 +192,7 @@ namespace WindowsFormsSample
 
         private void messageTextBox_Enter(object sender, EventArgs e)
         {
-            AcceptButton = sendButton;
+            //AcceptButton = sendButton;
         }
 
         private async void sendButton_Click(object sender, EventArgs e)
@@ -186,7 +200,7 @@ namespace WindowsFormsSample
             try
             {
                 //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
-                await _connection.InvokeAsync("SendMessage", messageTextBox.Text, "");
+                await _connection.InvokeAsync("GetJobDetail", txtBarcode.Text);
             }
             catch (Exception ex)
             {
@@ -203,16 +217,49 @@ namespace WindowsFormsSample
             messageTextBox.Enabled = connected;
             sendButton.Enabled = connected;
         }
+        public class PlaningViewModel
+        {
+            public int id { get; set; }
+            public string job_number { get; set; }
+            public int planQty { get; set; }
+            public int expectRatio { get; set; }
+            public int qtyPerInput { get; set; }
+            public string job_detail { get; set; }
 
+        }
         private void OnSend(string name, string message)
         {
             Log(Color.Black, name + ": " + message);
         }
-        private void OnReceived(double name, string message)
+        private void OnReceived(string message)
         {
-            Log(Color.Lime, name + ": " + message);
+            Log(Color.Lime, "Hubs" + ": " + message);
+            var myObj = JsonConvert.DeserializeObject<PlaningViewModel>(message);
+
+            txtJobNo.Text = myObj.job_number;
+            getJobFromHubs = true;
+            planQty = myObj.planQty;
+            expectRatio = myObj.expectRatio;
+            qtyPerInput = myObj.qtyPerInput;
+
+            expectValue = 0;
+            totalInput = 0;
+            totalPass = 0;
+            yieldValue = 0.0;
+            OEEValue = 0.0;
+
+            numNGqty.Maximum = (decimal)qtyPerInput;
+          
+            txtQtyPlan.Text = planQty.ToString();
+            txtQtyExpect.Text = expectValue.ToString();
+            txtQtyInput.Text = totalInput.ToString();
+            btnQtyPass.Text = totalPass.ToString();
+            txtQtyYield.Text = yieldValue.ToString("N2") + "%";
+            txtOEEvalue.Text = OEEValue.ToString("N3") + "%";
+            txtMessage.Text = "Get job from server successed, please run by push Start button.";
+
         }
-        
+
         private void Log(Color color, string message)
         {
             Action callback = () =>
@@ -322,7 +369,6 @@ namespace WindowsFormsSample
 
         }
 
-
         private void btnExit_Click(object sender, EventArgs e)
         {
 
@@ -342,22 +388,38 @@ namespace WindowsFormsSample
             Close();
         }
         
+
         private void btnStart_Click(object sender, EventArgs e)
         {
-            tikerTime = DateTime.Now.TimeOfDay;
-            IdleTimer.Stop();
-            SettingTimer.Stop();
-            DowntimeTimer.Stop();
+            // job detail from server
+            if(txtJobNo.Text != "")
+            {
+                txtBarcode.Enabled = false;
+                txtMessage.Text = "Machine is running";
 
-            PanelAlertMessage.BackColor = Color.LimeGreen;
-            bbcountRunningtimes = countRunningtimes;
-            RuningTimer.Start();
+                tikerTime = DateTime.Now.TimeOfDay;
+                IdleTimer.Stop();
+                SettingTimer.Stop();
+                DowntimeTimer.Stop();
+
+                PanelAlertMessage.BackColor = Color.LimeGreen;
+                bbcountRunningtimes = countRunningtimes;
+                RuningTimer.Start();
+            }
+            else
+            {
+                MessageBox.Show("Please scan barcode or key job number before start");
+            }
+            
 
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-          
+            getJobFromHubs = false;
+            txtBarcode.Enabled = true;
+            txtBarcode.Text = "SCAN BARCODE";
+            txtMessage.Text = "Machine is stop";
             RuningTimer.Stop();
             SettingTimer.Stop();
             DowntimeTimer.Stop();
@@ -373,6 +435,8 @@ namespace WindowsFormsSample
 
         private void btnTrial_Click(object sender, EventArgs e)
         {
+            txtMessage.Text = "Machine is trial";
+
             tikerTime = DateTime.Now.TimeOfDay;
             RuningTimer.Stop();
             IdleTimer.Stop();
@@ -386,6 +450,8 @@ namespace WindowsFormsSample
 
         private void btnMachineError_Click(object sender, EventArgs e)
         {
+            txtMessage.Text = "Machine is error"; 
+
             tikerTime = DateTime.Now.TimeOfDay;
             RuningTimer.Stop();
             IdleTimer.Stop();
@@ -565,7 +631,10 @@ namespace WindowsFormsSample
                 if (countIdletimes.TotalSeconds > 0) chart1.Series[0].Points[1].SetValueY((double)(countIdletimes.TotalSeconds * 100 / (countAlltime.TotalSeconds)));
                 if (countDownTimetimes.TotalSeconds > 0) chart1.Series[0].Points[2].SetValueY((double)(countDownTimetimes.TotalSeconds * 100 / (countAlltime.TotalSeconds)));
                 if (countRunningtimes.TotalSeconds > 0) chart1.Series[0].Points[3].SetValueY((double)(countRunningtimes.TotalSeconds * 100 / (countAlltime.TotalSeconds)));
-                
+
+                calYieldandOEE();
+
+
                 chart1.Refresh();
 
                 resetDone = false;
@@ -615,11 +684,146 @@ namespace WindowsFormsSample
 
             Properties.Settings.Default.Save();
 
+            planQty = 0;
+            expectValue = 0;
+            totalInput = 0;
+            totalPass = 0;
+            yieldValue = 0.0;
+            OEEValue = 0.0;
+
+            expectRatio = 0;
+            qtyPerInput = 0;
+
+            txtQtyPlan.Text = planQty.ToString();
+            txtQtyExpect.Text = expectValue.ToString();
+            txtQtyInput.Text = totalInput.ToString();
+            btnQtyPass.Text = totalPass.ToString();
+            txtQtyYield.Text = yieldValue.ToString("N2") + "%";
+            txtOEEvalue.Text = OEEValue.ToString("N3") + "%";
+
             tikerTime = DateTime.Now.TimeOfDay;
             countIdletimes = tikerTime - startTime - countRunningtimes - countDownTimetimes - countSettingtimes;
             bbcountIdletimes = countIdletimes;
             PanelAlertMessage.BackColor = Color.DarkOrange;
             IdleTimer.Start();
+        }
+
+        private async void txtBarcode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                //txtJobNo.Text = txtBarcode.Text;
+                
+                    try
+                    {
+                        if (_connection.State == HubConnectionState.Connected)
+                        {
+                            await _connection.InvokeAsync("GetJobDetail", txtBarcode.Text);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Now is disconnect with Server Hubs, please connect before");
+                            txtMessage.Text = "Now is disconnect with Server Hubs";
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+
+               
+
+                //numNGqty.Maximum = (decimal)qtyPerInput;
+
+                //planQty = 5000;
+                //expectRatio = 95;
+                //qtyPerInput = 50;
+
+                //expectValue = 0;
+                //totalInput = 0;
+                //totalPass = 0;
+                //yieldValue = 0.0;
+                //OEEValue = 0.0;
+
+                //txtQtyPlan.Text = planQty.ToString();
+                //txtQtyExpect.Text = expectValue.ToString();
+                //txtQtyInput.Text = totalInput.ToString();
+                //btnQtyPass.Text = totalPass.ToString();
+                //txtQtyYield.Text = yieldValue.ToString("N2") + "%";
+                //txtOEEvalue.Text = OEEValue.ToString("N3") + "%";
+                //txtMessage.Text = "Get job from server successed, please run by push Start button.";
+            }
+        }
+
+        private void txtBarcode_MouseClick(object sender, MouseEventArgs e)
+        {
+            txtBarcode.Text = "";
+        }
+
+        private void calYieldandOEE()
+        {
+            if (totalPass > 0)
+            {
+                yieldValue = (double)totalPass / totalInput * 100;
+                txtQtyYield.Text = yieldValue.ToString("N2") + "%";
+
+                //calculate OEE
+                TimeSpan countAlltime = countSettingtimes + countIdletimes + countDownTimetimes + countRunningtimes;
+                if (countRunningtimes.TotalSeconds > 0)
+                {
+                        double BpA =(double)(countRunningtimes.TotalSeconds / (countAlltime.TotalSeconds));
+                        OEEValue = (double)(BpA * yieldValue);
+                        txtOEEvalue.Text = OEEValue.ToString("N3") + "%";
+                }
+
+            }
+        }
+
+        private void btnInputPart_Click(object sender, EventArgs e)
+        {
+            if (RuningTimer.Enabled)
+            {
+                totalInput += qtyPerInput;
+                expectValue = (int)(totalInput * expectRatio / 100);
+                txtQtyInput.Text = totalInput.ToString();
+                txtQtyExpect.Text = expectValue.ToString();
+
+            }
+            else
+            {
+                MessageBox.Show("Please start button before input part");
+            }
+            
+        }
+
+        private void btnOKPart_Click(object sender, EventArgs e)
+        {
+            if (RuningTimer.Enabled)
+            {
+                totalPass += qtyPerInput;
+                btnQtyPass.Text = totalPass.ToString();
+
+            }
+            else
+            {
+                MessageBox.Show("Please start button before OK part");
+            }
+            
+        }
+
+        private void btnNGPart_Click(object sender, EventArgs e)
+        {
+
+            if (RuningTimer.Enabled)
+            {
+                totalPass += (qtyPerInput - (int)numNGqty.Value);
+                btnQtyPass.Text = totalPass.ToString();
+
+            }
+            else
+            {
+                MessageBox.Show("Please start button before NG part");
+            }
         }
     }
 }
