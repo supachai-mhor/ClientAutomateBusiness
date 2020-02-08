@@ -98,6 +98,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.numNGqty = new System.Windows.Forms.NumericUpDown();
             this.label21 = new System.Windows.Forms.Label();
             this.cmbErrorReason = new System.Windows.Forms.ComboBox();
             this.btnSubmitError = new System.Windows.Forms.Button();
@@ -107,6 +108,8 @@
             this.btnInputPart = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnTriggerOff = new System.Windows.Forms.Button();
+            this.btnTriggerOn = new System.Windows.Forms.Button();
             this.dtEndTime = new System.Windows.Forms.DateTimePicker();
             this.dtStartTime = new System.Windows.Forms.DateTimePicker();
             this.btnResetConfig = new System.Windows.Forms.Button();
@@ -119,7 +122,7 @@
             this.IdleTimer = new System.Windows.Forms.Timer(this.components);
             this.currentTimer = new System.Windows.Forms.Timer(this.components);
             this.updateChartTimer = new System.Windows.Forms.Timer(this.components);
-            this.numNGqty = new System.Windows.Forms.NumericUpDown();
+            this.lbCountTrigger = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -127,9 +130,9 @@
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numNGqty)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numNGqty)).BeginInit();
             this.SuspendLayout();
             // 
             // txtAddressHubs
@@ -176,10 +179,12 @@
             this.messagesList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.messagesList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.messagesList.FormattingEnabled = true;
+            this.messagesList.HorizontalScrollbar = true;
             this.messagesList.Location = new System.Drawing.Point(29, 216);
             this.messagesList.Name = "messagesList";
+            this.messagesList.ScrollAlwaysVisible = true;
             this.messagesList.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.messagesList.Size = new System.Drawing.Size(378, 316);
+            this.messagesList.Size = new System.Drawing.Size(378, 277);
             this.messagesList.TabIndex = 3;
             this.messagesList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.messagesList_DrawItem);
             // 
@@ -188,7 +193,7 @@
             this.sendButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.sendButton.Enabled = false;
             this.sendButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.sendButton.Location = new System.Drawing.Point(29, 567);
+            this.sendButton.Location = new System.Drawing.Point(28, 525);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(378, 36);
             this.sendButton.TabIndex = 5;
@@ -202,7 +207,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.messageTextBox.Enabled = false;
             this.messageTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.messageTextBox.Location = new System.Drawing.Point(29, 538);
+            this.messageTextBox.Location = new System.Drawing.Point(28, 499);
             this.messageTextBox.Name = "messageTextBox";
             this.messageTextBox.Size = new System.Drawing.Size(378, 23);
             this.messageTextBox.TabIndex = 4;
@@ -635,7 +640,7 @@
             this.txtMachineName.ReadOnly = true;
             this.txtMachineName.Size = new System.Drawing.Size(198, 19);
             this.txtMachineName.TabIndex = 24;
-            this.txtMachineName.Text = "ME-001-2993";
+            this.txtMachineName.Text = "ME-2001-2993";
             // 
             // btnTrial
             // 
@@ -1017,6 +1022,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Machine Event";
             // 
+            // numNGqty
+            // 
+            this.numNGqty.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.numNGqty.Location = new System.Drawing.Point(345, 47);
+            this.numNGqty.Name = "numNGqty";
+            this.numNGqty.Size = new System.Drawing.Size(56, 32);
+            this.numNGqty.TabIndex = 30;
+            // 
             // label21
             // 
             this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1151,6 +1164,9 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.OrangeRed;
+            this.tabPage1.Controls.Add(this.lbCountTrigger);
+            this.tabPage1.Controls.Add(this.btnTriggerOff);
+            this.tabPage1.Controls.Add(this.btnTriggerOn);
             this.tabPage1.Controls.Add(this.dtEndTime);
             this.tabPage1.Controls.Add(this.dtStartTime);
             this.tabPage1.Controls.Add(this.btnResetConfig);
@@ -1179,6 +1195,30 @@
             this.tabPage1.Size = new System.Drawing.Size(429, 662);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Config";
+            // 
+            // btnTriggerOff
+            // 
+            this.btnTriggerOff.BackColor = System.Drawing.Color.Orange;
+            this.btnTriggerOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.btnTriggerOff.Location = new System.Drawing.Point(261, 567);
+            this.btnTriggerOff.Name = "btnTriggerOff";
+            this.btnTriggerOff.Size = new System.Drawing.Size(145, 34);
+            this.btnTriggerOff.TabIndex = 55;
+            this.btnTriggerOff.Text = "Triger OFF";
+            this.btnTriggerOff.UseVisualStyleBackColor = false;
+            this.btnTriggerOff.Click += new System.EventHandler(this.btnTriggerOff_Click);
+            // 
+            // btnTriggerOn
+            // 
+            this.btnTriggerOn.BackColor = System.Drawing.Color.Lime;
+            this.btnTriggerOn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.btnTriggerOn.Location = new System.Drawing.Point(29, 567);
+            this.btnTriggerOn.Name = "btnTriggerOn";
+            this.btnTriggerOn.Size = new System.Drawing.Size(145, 34);
+            this.btnTriggerOn.TabIndex = 22;
+            this.btnTriggerOn.Text = "Triger ON";
+            this.btnTriggerOn.UseVisualStyleBackColor = false;
+            this.btnTriggerOn.Click += new System.EventHandler(this.btnTrigger_Click);
             // 
             // dtEndTime
             // 
@@ -1286,13 +1326,13 @@
             this.updateChartTimer.Interval = 500;
             this.updateChartTimer.Tick += new System.EventHandler(this.updateChartTimer_Tick);
             // 
-            // numNGqty
+            // lbCountTrigger
             // 
-            this.numNGqty.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.numNGqty.Location = new System.Drawing.Point(345, 47);
-            this.numNGqty.Name = "numNGqty";
-            this.numNGqty.Size = new System.Drawing.Size(56, 32);
-            this.numNGqty.TabIndex = 30;
+            this.lbCountTrigger.AutoSize = true;
+            this.lbCountTrigger.Location = new System.Drawing.Point(180, 570);
+            this.lbCountTrigger.Name = "lbCountTrigger";
+            this.lbCountTrigger.Size = new System.Drawing.Size(0, 25);
+            this.lbCountTrigger.TabIndex = 56;
             // 
             // ChatForm
             // 
@@ -1319,10 +1359,10 @@
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numNGqty)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numNGqty)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1416,6 +1456,9 @@
         private System.Windows.Forms.DateTimePicker dtStartTime;
         private System.Windows.Forms.DateTimePicker dtEndTime;
         private System.Windows.Forms.NumericUpDown numNGqty;
+        private System.Windows.Forms.Button btnTriggerOn;
+        private System.Windows.Forms.Button btnTriggerOff;
+        private System.Windows.Forms.Label lbCountTrigger;
     }
 }
 

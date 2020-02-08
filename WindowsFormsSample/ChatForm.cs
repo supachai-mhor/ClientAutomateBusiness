@@ -46,7 +46,44 @@ namespace WindowsFormsSample
         private int totalPass = 0;
         private double yieldValue = 0.0;
         private double OEEValue = 0.0;
-        private bool getJobFromHubs = false;
+        public bool getJobFromHubs = false;
+        public bool serverRequestData = false;
+        public int everyTiggerTime = 60;
+
+        public enum MachineState
+        {
+            isRunning,
+            isDowntime,
+            isIdle,
+            isSetting
+        }
+        public class MachineData
+        {
+            public MachineState machineState;
+            public double runningtimes;
+            public double downTimetimes;
+            public double settingtimes;
+            public double idletimes;
+
+            public int input;
+            public int pass;
+            public double yield;
+            public double oee;
+
+            public string operatorName;
+            public TimeSpan startTime;
+            public TimeSpan endTime;
+        }
+        public class PlaningViewModel
+        {
+            public int id { get; set; }
+            public string job_number { get; set; }
+            public int planQty { get; set; }
+            public int expectRatio { get; set; }
+            public int qtyPerInput { get; set; }
+            public string job_detail { get; set; }
+
+        }
 
         public void AppendTextBox(string user, string message)
         {
@@ -67,10 +104,6 @@ namespace WindowsFormsSample
             txtPassword.Text = Properties.Settings.Default.AdminPassword;
             txtCompanyName.Text = Properties.Settings.Default.CompanyName;
             txtMachineName.Text = Properties.Settings.Default.MachineName;
-
-            //lbAlertMessage.Text = "WAITING";
-            //PanelAlertMessage.BackColor = Color.DarkOrange;
-            //lbAlertMessage.Left = (PanelAlertMessage.Width - lbAlertMessage.Width) / 2;
 
             countRunningtimes = Properties.Settings.Default.RunningTimes;
             countDownTimetimes = Properties.Settings.Default.DownTimes;
@@ -151,9 +184,13 @@ namespace WindowsFormsSample
 
 
             _connection.On<string, string>("ReceiveData", (s1, s2) => OnSend(s1, s2));
+
+            _connection.On<bool,int>("ServerRequestRealTime", (s1,s2) => OnRequest(s1,s2));
             //_connection.On<string, string>("ReceiveData", (user, message) => AppendTextBox(user, message));
-        
+
             _connection.On<string>("ReceiveJobDetail", (s1) => OnReceived(s1));
+
+           // _connection.On<string>("ReceiveRealTimeData", (s1) => OnReceivedRealTimeData(s1));
 
             Log(Color.Gray, "Starting connection...");
             try
@@ -217,20 +254,36 @@ namespace WindowsFormsSample
             messageTextBox.Enabled = connected;
             sendButton.Enabled = connected;
         }
-        public class PlaningViewModel
-        {
-            public int id { get; set; }
-            public string job_number { get; set; }
-            public int planQty { get; set; }
-            public int expectRatio { get; set; }
-            public int qtyPerInput { get; set; }
-            public string job_detail { get; set; }
-
-        }
+        
         private void OnSend(string name, string message)
         {
             Log(Color.Black, name + ": " + message);
         }
+        private void OnRequest(bool data,int everyTime)
+        {
+
+            everyTiggerTime = everyTime;
+            if (data)
+            {
+                
+                serverRequestData = true;
+                countSenddataToHubs = 0;
+                Log(Color.Orange,  "Server : Start Request Data" );
+            }
+            else
+            {
+                serverRequestData = false;
+                countSenddataToHubs = 0;
+                Log(Color.Orange, "Server : Stop Request Data");
+            }
+           
+        }
+        
+        private void OnReceivedRealTimeData(string message)
+        {
+            Log(Color.DeepPink, "Hubs" + ": " + message);
+        }
+
         private void OnReceived(string message)
         {
             Log(Color.Lime, "Hubs" + ": " + message);
@@ -522,20 +575,84 @@ namespace WindowsFormsSample
 
         }
         private int countSenddataToHubs = 0;
-        private void currentTimer_Tick(object sender, EventArgs e)
+        public MachineState checkStateMachine;
+        public double settingPercen;
+        public double downtimePercen;
+        public double idlePercen;
+        public double runningPercen;
+        public int lastInput=0;
+        public int lastPass=0;
+        private async void currentTimer_Tick(object sender, EventArgs e)
         {
-            countSenddataToHubs += 1;
-
-            if (countSenddataToHubs == 60)
+            if (serverRequestData)
             {
-                currentTimer.Stop();
-                //send data to Hubs server
+                countSenddataToHubs += 1;
+                lbCountTrigger.Text = countSenddataToHubs.ToString();
+                if (countSenddataToHubs == everyTiggerTime)
+                {
+                    countSenddataToHubs = 0;
+                    //send data to Hubs server
 
+                    currentTimer.Stop();
+                    //send data to Hubs server
 
+                    if (RuningTimer.Enabled) checkStateMachine = MachineState.isRunning;
+                    else if (DowntimeTimer.Enabled) checkStateMachine = MachineState.isDowntime;
+                    else if (SettingTimer.Enabled) checkStateMachine = MachineState.isSetting;
+                    else checkStateMachine = MachineState.isIdle;
 
-                currentTimer.Start();
-                
+                    TimeSpan countAlltime = countSettingtimes + countIdletimes + countDownTimetimes + countRunningtimes;
+                    if (countSettingtimes.TotalSeconds > 0) settingPercen = (double)(countSettingtimes.TotalSeconds * 100 / (countAlltime.TotalSeconds));
+                    if (countIdletimes.TotalSeconds > 0) idlePercen = (double)(countIdletimes.TotalSeconds * 100 / (countAlltime.TotalSeconds));
+                    if (countDownTimetimes.TotalSeconds > 0) downtimePercen = (double)(countDownTimetimes.TotalSeconds * 100 / (countAlltime.TotalSeconds));
+                    if (countRunningtimes.TotalSeconds > 0) runningPercen = (double)(countRunningtimes.TotalSeconds * 100 / (countAlltime.TotalSeconds));
+
+                    var countLastInput = totalInput - lastInput;
+                    var countLastPass = totalPass - lastPass;
+
+                    if (countLastInput > 0 && countLastPass > 0)
+                    {
+                        lastInput = totalInput;
+                        lastPass = totalPass;
+                    }
+                    var datatoSendtoHub = new MachineData
+                    {
+                        machineState= checkStateMachine,
+
+                        runningtimes = runningPercen,
+                        downTimetimes= downtimePercen,
+                        settingtimes= settingPercen,
+                        idletimes= idlePercen,
+
+                        input = countLastInput,
+                        pass = countLastPass,
+                        yield = yieldValue,
+                        oee = OEEValue,
+
+                        operatorName = txtOperatorName.Text,
+                        startTime = startTime,
+                        endTime = endTime
+                    };
+
+                    var dataJson = JsonConvert.SerializeObject(datatoSendtoHub);
+                    try
+                    {
+                        //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
+                        await _connection.InvokeAsync("SendMachineData", dataJson);
+                        Log(Color.Brown, "Senddata to server " + ": " + dataJson);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(Color.Red, ex.ToString());
+                        serverRequestData = false;
+                        countSenddataToHubs = 0;
+                    }
+
+                    currentTimer.Start();
+
+                }
             }
+           
         }
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
@@ -823,6 +940,32 @@ namespace WindowsFormsSample
             else
             {
                 MessageBox.Show("Please start button before NG part");
+            }
+        }
+
+        private async void btnTrigger_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
+                await _connection.InvokeAsync("TrigerRealTimeMachine", txtMachineName.Text, txtCompanyName.Text,true,5);
+            }
+            catch (Exception ex)
+            {
+                Log(Color.Red, ex.ToString());
+            }
+        }
+
+        private async void btnTriggerOff_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
+                await _connection.InvokeAsync("TrigerRealTimeMachine", txtMachineName.Text, txtCompanyName.Text, false,0);
+            }
+            catch (Exception ex)
+            {
+                Log(Color.Red, ex.ToString());
             }
         }
     }
