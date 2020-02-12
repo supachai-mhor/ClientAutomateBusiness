@@ -32,5 +32,8 @@
     <Setting Name="EndTime" Type="System.TimeSpan" Scope="User">
       <Value Profile="(Default)">18.00:00:00</Value>
     </Setting>
+    <Setting Name="SupervisorEmail" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mhor.fibo7@gmail.com</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

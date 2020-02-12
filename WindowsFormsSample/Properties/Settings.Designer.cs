@@ -133,5 +133,17 @@ namespace WindowsFormsSample.Properties {
                 this["EndTime"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mhor.fibo7@gmail.com")]
+        public string SupervisorEmail {
+            get {
+                return ((string)(this["SupervisorEmail"]));
+            }
+            set {
+                this["SupervisorEmail"] = value;
+            }
+        }
     }
 }

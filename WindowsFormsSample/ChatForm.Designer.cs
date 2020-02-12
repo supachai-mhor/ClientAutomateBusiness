@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.txtAddressHubs = new System.Windows.Forms.TextBox();
             this.connectButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -98,6 +98,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtErrorDescription = new System.Windows.Forms.TextBox();
             this.numNGqty = new System.Windows.Forms.NumericUpDown();
             this.label21 = new System.Windows.Forms.Label();
             this.cmbErrorReason = new System.Windows.Forms.ComboBox();
@@ -108,6 +109,7 @@
             this.btnInputPart = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lbCountTrigger = new System.Windows.Forms.Label();
             this.btnTriggerOff = new System.Windows.Forms.Button();
             this.btnTriggerOn = new System.Windows.Forms.Button();
             this.dtEndTime = new System.Windows.Forms.DateTimePicker();
@@ -122,7 +124,10 @@
             this.IdleTimer = new System.Windows.Forms.Timer(this.components);
             this.currentTimer = new System.Windows.Forms.Timer(this.components);
             this.updateChartTimer = new System.Windows.Forms.Timer(this.components);
-            this.lbCountTrigger = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.txtMsgToSup = new System.Windows.Forms.TextBox();
+            this.btnSendMsgToSup = new System.Windows.Forms.Button();
+            this.lsMsgSup = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -133,6 +138,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numNGqty)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.tabPage1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtAddressHubs
@@ -350,10 +356,10 @@
             this.txtOEEvalue.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtOEEvalue.Font = new System.Drawing.Font("Microsoft Sans Serif", 35F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.txtOEEvalue.ForeColor = System.Drawing.Color.White;
-            this.txtOEEvalue.Location = new System.Drawing.Point(270, 563);
+            this.txtOEEvalue.Location = new System.Drawing.Point(231, 563);
             this.txtOEEvalue.Name = "txtOEEvalue";
             this.txtOEEvalue.ReadOnly = true;
-            this.txtOEEvalue.Size = new System.Drawing.Size(166, 53);
+            this.txtOEEvalue.Size = new System.Drawing.Size(205, 53);
             this.txtOEEvalue.TabIndex = 21;
             this.txtOEEvalue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -969,6 +975,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Right;
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.tabControl1.Location = new System.Drawing.Point(816, 0);
@@ -1005,6 +1012,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtErrorDescription);
             this.groupBox2.Controls.Add(this.numNGqty);
             this.groupBox2.Controls.Add(this.label21);
             this.groupBox2.Controls.Add(this.cmbErrorReason);
@@ -1022,6 +1030,18 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Machine Event";
             // 
+            // txtErrorDescription
+            // 
+            this.txtErrorDescription.BackColor = System.Drawing.Color.LightSalmon;
+            this.txtErrorDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtErrorDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.txtErrorDescription.ForeColor = System.Drawing.Color.DarkRed;
+            this.txtErrorDescription.Location = new System.Drawing.Point(215, 93);
+            this.txtErrorDescription.Multiline = true;
+            this.txtErrorDescription.Name = "txtErrorDescription";
+            this.txtErrorDescription.Size = new System.Drawing.Size(186, 76);
+            this.txtErrorDescription.TabIndex = 31;
+            // 
             // numNGqty
             // 
             this.numNGqty.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
@@ -1038,7 +1058,7 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label21.ForeColor = System.Drawing.Color.Red;
-            this.label21.Location = new System.Drawing.Point(220, 132);
+            this.label21.Location = new System.Drawing.Point(22, 142);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(181, 25);
             this.label21.TabIndex = 28;
@@ -1058,7 +1078,7 @@
             "Material Error",
             "Human Error",
             "Other Error"});
-            this.cmbErrorReason.Location = new System.Drawing.Point(219, 177);
+            this.cmbErrorReason.Location = new System.Drawing.Point(21, 175);
             this.cmbErrorReason.Name = "cmbErrorReason";
             this.cmbErrorReason.Size = new System.Drawing.Size(186, 32);
             this.cmbErrorReason.TabIndex = 27;
@@ -1068,7 +1088,7 @@
             // 
             this.btnSubmitError.BackColor = System.Drawing.Color.Chocolate;
             this.btnSubmitError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnSubmitError.Location = new System.Drawing.Point(21, 177);
+            this.btnSubmitError.Location = new System.Drawing.Point(215, 175);
             this.btnSubmitError.Name = "btnSubmitError";
             this.btnSubmitError.Size = new System.Drawing.Size(186, 33);
             this.btnSubmitError.TabIndex = 26;
@@ -1080,7 +1100,7 @@
             // 
             this.btnMachineError.BackColor = System.Drawing.Color.Red;
             this.btnMachineError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnMachineError.Location = new System.Drawing.Point(21, 125);
+            this.btnMachineError.Location = new System.Drawing.Point(21, 91);
             this.btnMachineError.Name = "btnMachineError";
             this.btnMachineError.Size = new System.Drawing.Size(186, 42);
             this.btnMachineError.TabIndex = 25;
@@ -1128,38 +1148,38 @@
             // 
             this.chart1.BackColor = System.Drawing.Color.Black;
             this.chart1.BorderlineColor = System.Drawing.Color.Empty;
-            chartArea1.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
-            chartArea1.BackColor = System.Drawing.Color.Black;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Alignment = System.Drawing.StringAlignment.Center;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea5.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
+            chartArea5.BackColor = System.Drawing.Color.Black;
+            chartArea5.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea5);
+            legend5.Alignment = System.Drawing.StringAlignment.Center;
+            legend5.Name = "Legend1";
+            this.chart1.Legends.Add(legend5);
             this.chart1.Location = new System.Drawing.Point(16, 38);
             this.chart1.Name = "chart1";
-            series1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series1.Color = System.Drawing.Color.Black;
-            series1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            series1.IsValueShownAsLabel = true;
-            series1.LabelForeColor = System.Drawing.Color.Empty;
-            series1.LabelToolTip = "#VAL{P}";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.String;
-            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
+            series5.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series5.Color = System.Drawing.Color.Black;
+            series5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            series5.IsValueShownAsLabel = true;
+            series5.LabelForeColor = System.Drawing.Color.Empty;
+            series5.LabelToolTip = "#VAL{P}";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.String;
+            series5.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart1.Series.Add(series5);
             this.chart1.Size = new System.Drawing.Size(405, 362);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-            title1.Alignment = System.Drawing.ContentAlignment.TopLeft;
-            title1.BackColor = System.Drawing.Color.Black;
-            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
-            title1.ForeColor = System.Drawing.Color.DarkOrange;
-            title1.Name = "title";
-            title1.Text = "      Overall Timeline Chart";
-            this.chart1.Titles.Add(title1);
+            title5.Alignment = System.Drawing.ContentAlignment.TopLeft;
+            title5.BackColor = System.Drawing.Color.Black;
+            title5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
+            title5.ForeColor = System.Drawing.Color.DarkOrange;
+            title5.Name = "title";
+            title5.Text = "      Overall Timeline Chart";
+            this.chart1.Titles.Add(title5);
             // 
             // tabPage1
             // 
@@ -1195,6 +1215,14 @@
             this.tabPage1.Size = new System.Drawing.Size(429, 662);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Config";
+            // 
+            // lbCountTrigger
+            // 
+            this.lbCountTrigger.AutoSize = true;
+            this.lbCountTrigger.Location = new System.Drawing.Point(180, 570);
+            this.lbCountTrigger.Name = "lbCountTrigger";
+            this.lbCountTrigger.Size = new System.Drawing.Size(0, 25);
+            this.lbCountTrigger.TabIndex = 56;
             // 
             // btnTriggerOff
             // 
@@ -1326,13 +1354,63 @@
             this.updateChartTimer.Interval = 500;
             this.updateChartTimer.Tick += new System.EventHandler(this.updateChartTimer_Tick);
             // 
-            // lbCountTrigger
+            // tabPage3
             // 
-            this.lbCountTrigger.AutoSize = true;
-            this.lbCountTrigger.Location = new System.Drawing.Point(180, 570);
-            this.lbCountTrigger.Name = "lbCountTrigger";
-            this.lbCountTrigger.Size = new System.Drawing.Size(0, 25);
-            this.lbCountTrigger.TabIndex = 56;
+            this.tabPage3.BackColor = System.Drawing.Color.Aquamarine;
+            this.tabPage3.Controls.Add(this.lsMsgSup);
+            this.tabPage3.Controls.Add(this.txtMsgToSup);
+            this.tabPage3.Controls.Add(this.btnSendMsgToSup);
+            this.tabPage3.Location = new System.Drawing.Point(4, 34);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(429, 662);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Message";
+            // 
+            // txtMsgToSup
+            // 
+            this.txtMsgToSup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMsgToSup.Enabled = false;
+            this.txtMsgToSup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.txtMsgToSup.Location = new System.Drawing.Point(6, 580);
+            this.txtMsgToSup.Multiline = true;
+            this.txtMsgToSup.Name = "txtMsgToSup";
+            this.txtMsgToSup.Size = new System.Drawing.Size(345, 79);
+            this.txtMsgToSup.TabIndex = 6;
+            this.txtMsgToSup.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMsgToSup_KeyPress);
+            // 
+            // btnSendMsgToSup
+            // 
+            this.btnSendMsgToSup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSendMsgToSup.BackColor = System.Drawing.Color.Green;
+            this.btnSendMsgToSup.Enabled = false;
+            this.btnSendMsgToSup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.btnSendMsgToSup.Location = new System.Drawing.Point(353, 580);
+            this.btnSendMsgToSup.Name = "btnSendMsgToSup";
+            this.btnSendMsgToSup.Size = new System.Drawing.Size(73, 79);
+            this.btnSendMsgToSup.TabIndex = 7;
+            this.btnSendMsgToSup.Text = "SEND";
+            this.btnSendMsgToSup.UseVisualStyleBackColor = false;
+            this.btnSendMsgToSup.Click += new System.EventHandler(this.btnSendMsgToSup_Click);
+            // 
+            // lsMsgSup
+            // 
+            this.lsMsgSup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lsMsgSup.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.lsMsgSup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.lsMsgSup.ForeColor = System.Drawing.Color.White;
+            this.lsMsgSup.FormattingEnabled = true;
+            this.lsMsgSup.HorizontalScrollbar = true;
+            this.lsMsgSup.Location = new System.Drawing.Point(0, 0);
+            this.lsMsgSup.Name = "lsMsgSup";
+            this.lsMsgSup.ScrollAlwaysVisible = true;
+            this.lsMsgSup.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.lsMsgSup.Size = new System.Drawing.Size(426, 576);
+            this.lsMsgSup.TabIndex = 8;
+            this.lsMsgSup.DoubleClick += new System.EventHandler(this.lsMsgSup_DoubleClick);
             // 
             // ChatForm
             // 
@@ -1363,6 +1441,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1459,6 +1539,11 @@
         private System.Windows.Forms.Button btnTriggerOn;
         private System.Windows.Forms.Button btnTriggerOff;
         private System.Windows.Forms.Label lbCountTrigger;
+        private System.Windows.Forms.TextBox txtErrorDescription;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.ListBox lsMsgSup;
+        private System.Windows.Forms.TextBox txtMsgToSup;
+        private System.Windows.Forms.Button btnSendMsgToSup;
     }
 }
 

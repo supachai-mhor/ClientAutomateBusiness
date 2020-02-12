@@ -42,8 +42,8 @@ namespace WindowsFormsSample
         private int qtyPerInput = 50 ;
         
         private int expectValue = 0;
-        private int totalInput = 0;
-        private int totalPass = 0;
+        private int totalInputValue = 0;
+        private int totalPassValue = 0;
         private double yieldValue = 0.0;
         private double OEEValue = 0.0;
         public bool getJobFromHubs = false;
@@ -65,11 +65,22 @@ namespace WindowsFormsSample
             public double settingtimes;
             public double idletimes;
 
+            public TimeSpan RunningTimeSpan;
+            public TimeSpan DownTimeSpan;
+            public TimeSpan SettingTimeSpan;
+            public TimeSpan IdleTimeSpan;
+
+            public int totalInput;
+            public int totalPass;
+
             public int input;
             public int pass;
             public double yield;
             public double oee;
 
+            public string machineName;
+            public string jobNumber;
+            public string supervisorName;
             public string operatorName;
             public TimeSpan startTime;
             public TimeSpan endTime;
@@ -189,21 +200,22 @@ namespace WindowsFormsSample
             //_connection.On<string, string>("ReceiveData", (user, message) => AppendTextBox(user, message));
 
             _connection.On<string>("ReceiveJobDetail", (s1) => OnReceived(s1));
-
+            _connection.On<string>("ReceiveMessagFromSupervisor", (s1) => OnReceiveMessageToSupervisor(s1));
+            
            // _connection.On<string>("ReceiveRealTimeData", (s1) => OnReceivedRealTimeData(s1));
 
-            Log(Color.Gray, "Starting connection...");
+            Log(Color.Gray, "Starting connection...",messagesList);
             try
             {
                 await _connection.StartAsync();
             }
             catch (Exception ex)
             {
-                Log(Color.Red, ex.ToString());
+                Log(Color.Red, ex.ToString(), messagesList);
                 return;
             }
 
-            Log(Color.Gray, "Connection established.");
+            Log(Color.Gray, "Connection established.", messagesList);
 
             UpdateState(connected: true);
 
@@ -212,17 +224,17 @@ namespace WindowsFormsSample
 
         private async void disconnectButton_Click(object sender, EventArgs e)
         {
-            Log(Color.Gray, "Stopping connection...");
+            Log(Color.Gray, "Stopping connection...", messagesList);
             try
             {
                 await _connection.StopAsync();
             }
             catch (Exception ex)
             {
-                Log(Color.Red, ex.ToString());
+                Log(Color.Red, ex.ToString(), messagesList);
             }
 
-            Log(Color.Gray, "Connection terminated.");
+            Log(Color.Gray, "Connection terminated.", messagesList);
 
             UpdateState(connected: false);
         }
@@ -241,7 +253,7 @@ namespace WindowsFormsSample
             }
             catch (Exception ex)
             {
-                Log(Color.Red, ex.ToString());
+                Log(Color.Red, ex.ToString(), messagesList);
             }
         }
 
@@ -257,7 +269,7 @@ namespace WindowsFormsSample
         
         private void OnSend(string name, string message)
         {
-            Log(Color.Black, name + ": " + message);
+            Log(Color.Black, name + ": " + message, messagesList);
         }
         private void OnRequest(bool data,int everyTime)
         {
@@ -268,25 +280,29 @@ namespace WindowsFormsSample
                 
                 serverRequestData = true;
                 countSenddataToHubs = 0;
-                Log(Color.Orange,  "Server : Start Request Data" );
+                Log(Color.Orange,  "Server : Start Request Data", messagesList);
             }
             else
             {
                 serverRequestData = false;
                 countSenddataToHubs = 0;
-                Log(Color.Orange, "Server : Stop Request Data");
+                Log(Color.Orange, "Server : Stop Request Data", messagesList);
             }
            
         }
         
         private void OnReceivedRealTimeData(string message)
         {
-            Log(Color.DeepPink, "Hubs" + ": " + message);
+            Log(Color.DeepPink, "Hubs" + ": " + message, messagesList);
         }
-
+        private void OnReceiveMessageToSupervisor(string message)
+        {
+            Log(Color.Green, "Supervisor" + ": " + message, lsMsgSup);
+        }
+        
         private void OnReceived(string message)
         {
-            Log(Color.Lime, "Hubs" + ": " + message);
+            Log(Color.Lime, "Hubs" + ": " + message, messagesList);
             var myObj = JsonConvert.DeserializeObject<PlaningViewModel>(message);
 
             txtJobNo.Text = myObj.job_number;
@@ -296,8 +312,8 @@ namespace WindowsFormsSample
             qtyPerInput = myObj.qtyPerInput;
 
             expectValue = 0;
-            totalInput = 0;
-            totalPass = 0;
+            totalInputValue = 0;
+            totalPassValue = 0;
             yieldValue = 0.0;
             OEEValue = 0.0;
 
@@ -305,19 +321,19 @@ namespace WindowsFormsSample
           
             txtQtyPlan.Text = planQty.ToString();
             txtQtyExpect.Text = expectValue.ToString();
-            txtQtyInput.Text = totalInput.ToString();
-            btnQtyPass.Text = totalPass.ToString();
+            txtQtyInput.Text = totalInputValue.ToString();
+            btnQtyPass.Text = totalPassValue.ToString();
             txtQtyYield.Text = yieldValue.ToString("N2") + "%";
             txtOEEvalue.Text = OEEValue.ToString("N3") + "%";
             txtMessage.Text = "Get job from server successed, please run by push Start button.";
 
         }
 
-        private void Log(Color color, string message)
+        private void Log(Color color, string message, ListBox ls)
         {
             Action callback = () =>
             {
-                messagesList.Items.Add(new LogMessage(color, message));
+                ls.Items.Add(new LogMessage(color, message));
             };
 
             Invoke(callback);
@@ -559,11 +575,26 @@ namespace WindowsFormsSample
             lbAlertMessage.Left = (PanelAlertMessage.Width - lbAlertMessage.Width) / 2;
         }
 
-        private void btnSubmitError_Click(object sender, EventArgs e)
+        private async void btnSubmitError_Click(object sender, EventArgs e)
         {
             
             DowntimeTimer.Stop();
 
+            try
+            {
+                //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
+                await _connection.InvokeAsync("SendMachineError", DateTime.Now.ToString(),cmbErrorReason.Text,txtErrorDescription.Text);
+                Log(Color.Brown, "SendError to server " + ": " + cmbErrorReason.Text, messagesList);
+                
+            }
+            catch (Exception ex)
+            {
+                Log(Color.Red, ex.ToString(), messagesList);
+                serverRequestData = false;
+                countSenddataToHubs = 0;
+            }
+
+            txtErrorDescription.Text = "";
             //Send data Hubs
 
             tikerTime = DateTime.Now.TimeOfDay;
@@ -607,28 +638,38 @@ namespace WindowsFormsSample
                     if (countDownTimetimes.TotalSeconds > 0) downtimePercen = (double)(countDownTimetimes.TotalSeconds * 100 / (countAlltime.TotalSeconds));
                     if (countRunningtimes.TotalSeconds > 0) runningPercen = (double)(countRunningtimes.TotalSeconds * 100 / (countAlltime.TotalSeconds));
 
-                    var countLastInput = totalInput - lastInput;
-                    var countLastPass = totalPass - lastPass;
+                    var countLastInput = totalInputValue - lastInput;
+                    var countLastPass = totalPassValue - lastPass;
 
                     if (countLastInput > 0 && countLastPass > 0)
                     {
-                        lastInput = totalInput;
-                        lastPass = totalPass;
+                        lastInput = totalInputValue;
+                        lastPass = totalPassValue;
                     }
                     var datatoSendtoHub = new MachineData
                     {
-                        machineState= checkStateMachine,
+                        machineState = checkStateMachine,
 
                         runningtimes = runningPercen,
-                        downTimetimes= downtimePercen,
-                        settingtimes= settingPercen,
-                        idletimes= idlePercen,
+                        downTimetimes = downtimePercen,
+                        settingtimes = settingPercen,
+                        idletimes = idlePercen,
 
+                        RunningTimeSpan = countRunningtimes,
+                        DownTimeSpan = countDownTimetimes,
+                        SettingTimeSpan = countSettingtimes,
+                        IdleTimeSpan = countIdletimes,
+
+                        totalInput = totalInputValue,
+                        totalPass = totalPassValue,
                         input = countLastInput,
                         pass = countLastPass,
                         yield = yieldValue,
                         oee = OEEValue,
 
+                        machineName = txtMachineName.Text,
+                        jobNumber = txtJobNo.Text,
+                        supervisorName = txtSupervisorName.Text,
                         operatorName = txtOperatorName.Text,
                         startTime = startTime,
                         endTime = endTime
@@ -639,11 +680,11 @@ namespace WindowsFormsSample
                     {
                         //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
                         await _connection.InvokeAsync("SendMachineData", dataJson);
-                        Log(Color.Brown, "Senddata to server " + ": " + dataJson);
+                        Log(Color.Brown, "Senddata to server " + ": " + dataJson, messagesList);
                     }
                     catch (Exception ex)
                     {
-                        Log(Color.Red, ex.ToString());
+                        Log(Color.Red, ex.ToString(), messagesList);
                         serverRequestData = false;
                         countSenddataToHubs = 0;
                     }
@@ -803,8 +844,8 @@ namespace WindowsFormsSample
 
             planQty = 0;
             expectValue = 0;
-            totalInput = 0;
-            totalPass = 0;
+            totalInputValue = 0;
+            totalPassValue = 0;
             yieldValue = 0.0;
             OEEValue = 0.0;
 
@@ -813,8 +854,8 @@ namespace WindowsFormsSample
 
             txtQtyPlan.Text = planQty.ToString();
             txtQtyExpect.Text = expectValue.ToString();
-            txtQtyInput.Text = totalInput.ToString();
-            btnQtyPass.Text = totalPass.ToString();
+            txtQtyInput.Text = totalInputValue.ToString();
+            btnQtyPass.Text = totalPassValue.ToString();
             txtQtyYield.Text = yieldValue.ToString("N2") + "%";
             txtOEEvalue.Text = OEEValue.ToString("N3") + "%";
 
@@ -879,9 +920,9 @@ namespace WindowsFormsSample
 
         private void calYieldandOEE()
         {
-            if (totalPass > 0)
+            if (totalPassValue > 0 && totalInputValue > 0)
             {
-                yieldValue = (double)totalPass / totalInput * 100;
+                yieldValue = (double)totalPassValue / totalInputValue * 100;
                 txtQtyYield.Text = yieldValue.ToString("N2") + "%";
 
                 //calculate OEE
@@ -900,9 +941,9 @@ namespace WindowsFormsSample
         {
             if (RuningTimer.Enabled)
             {
-                totalInput += qtyPerInput;
-                expectValue = (int)(totalInput * expectRatio / 100);
-                txtQtyInput.Text = totalInput.ToString();
+                totalInputValue += qtyPerInput;
+                expectValue = (int)(totalInputValue * expectRatio / 100);
+                txtQtyInput.Text = totalInputValue.ToString();
                 txtQtyExpect.Text = expectValue.ToString();
 
             }
@@ -917,8 +958,8 @@ namespace WindowsFormsSample
         {
             if (RuningTimer.Enabled)
             {
-                totalPass += qtyPerInput;
-                btnQtyPass.Text = totalPass.ToString();
+                totalPassValue += qtyPerInput;
+                btnQtyPass.Text = totalPassValue.ToString();
 
             }
             else
@@ -933,8 +974,8 @@ namespace WindowsFormsSample
 
             if (RuningTimer.Enabled)
             {
-                totalPass += (qtyPerInput - (int)numNGqty.Value);
-                btnQtyPass.Text = totalPass.ToString();
+                totalPassValue += (qtyPerInput - (int)numNGqty.Value);
+                btnQtyPass.Text = totalPassValue.ToString();
 
             }
             else
@@ -952,7 +993,7 @@ namespace WindowsFormsSample
             }
             catch (Exception ex)
             {
-                Log(Color.Red, ex.ToString());
+                Log(Color.Red, ex.ToString(), messagesList);
             }
         }
 
@@ -965,7 +1006,45 @@ namespace WindowsFormsSample
             }
             catch (Exception ex)
             {
-                Log(Color.Red, ex.ToString());
+                Log(Color.Red, ex.ToString(), messagesList);
+            }
+        }
+
+        private void lsMsgSup_DoubleClick(object sender, EventArgs e)
+        {
+            lsMsgSup.Items.Clear();
+        }
+
+        private async void btnSendMsgToSup_Click(object sender, EventArgs e)
+        {
+            Log(Color.Blue, "Operator" + ": " + txtMsgToSup.Text, lsMsgSup);
+
+            try
+            {
+                //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
+                await _connection.InvokeAsync("SendMessageToSupervisor", txtMsgToSup.Text, DateTime.Now.ToString(), Properties.Settings.Default.SupervisorEmail);
+            }
+            catch (Exception ex)
+            {
+                Log(Color.Red, "Unsend message to supervisor, please reconnect to server", lsMsgSup);
+            }
+        }
+
+        private async void txtMsgToSup_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                Log(Color.Blue, "Operator" + ": " + txtMsgToSup.Text, lsMsgSup);
+
+                try
+                {
+                    //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
+                    await _connection.InvokeAsync("SendMessageToSupervisor", txtMsgToSup.Text, DateTime.Now.ToString(), Properties.Settings.Default.SupervisorEmail);
+                }
+                catch (Exception ex)
+                {
+                    Log(Color.Red, "Unsend message to supervisor, please reconnect to server", lsMsgSup);
+                }
             }
         }
     }
