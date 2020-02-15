@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.txtAddressHubs = new System.Windows.Forms.TextBox();
             this.connectButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -118,16 +118,16 @@
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.btnSaveConfig = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.rtbMsgSup = new System.Windows.Forms.RichTextBox();
+            this.txtMsgToSup = new System.Windows.Forms.TextBox();
+            this.btnSendMsgToSup = new System.Windows.Forms.Button();
             this.RuningTimer = new System.Windows.Forms.Timer(this.components);
             this.DowntimeTimer = new System.Windows.Forms.Timer(this.components);
             this.SettingTimer = new System.Windows.Forms.Timer(this.components);
             this.IdleTimer = new System.Windows.Forms.Timer(this.components);
             this.currentTimer = new System.Windows.Forms.Timer(this.components);
             this.updateChartTimer = new System.Windows.Forms.Timer(this.components);
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.txtMsgToSup = new System.Windows.Forms.TextBox();
-            this.btnSendMsgToSup = new System.Windows.Forms.Button();
-            this.lsMsgSup = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -186,11 +186,12 @@
             this.messagesList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.messagesList.FormattingEnabled = true;
             this.messagesList.HorizontalScrollbar = true;
+            this.messagesList.ItemHeight = 20;
             this.messagesList.Location = new System.Drawing.Point(29, 216);
             this.messagesList.Name = "messagesList";
             this.messagesList.ScrollAlwaysVisible = true;
             this.messagesList.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.messagesList.Size = new System.Drawing.Size(378, 277);
+            this.messagesList.Size = new System.Drawing.Size(378, 264);
             this.messagesList.TabIndex = 3;
             this.messagesList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.messagesList_DrawItem);
             // 
@@ -1148,38 +1149,38 @@
             // 
             this.chart1.BackColor = System.Drawing.Color.Black;
             this.chart1.BorderlineColor = System.Drawing.Color.Empty;
-            chartArea5.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
-            chartArea5.BackColor = System.Drawing.Color.Black;
-            chartArea5.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea5);
-            legend5.Alignment = System.Drawing.StringAlignment.Center;
-            legend5.Name = "Legend1";
-            this.chart1.Legends.Add(legend5);
+            chartArea1.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
+            chartArea1.BackColor = System.Drawing.Color.Black;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Alignment = System.Drawing.StringAlignment.Center;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(16, 38);
             this.chart1.Name = "chart1";
-            series5.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series5.Color = System.Drawing.Color.Black;
-            series5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            series5.IsValueShownAsLabel = true;
-            series5.LabelForeColor = System.Drawing.Color.Empty;
-            series5.LabelToolTip = "#VAL{P}";
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.String;
-            series5.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series5);
+            series1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series1.Color = System.Drawing.Color.Black;
+            series1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            series1.IsValueShownAsLabel = true;
+            series1.LabelForeColor = System.Drawing.Color.Empty;
+            series1.LabelToolTip = "#VAL{P}";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.String;
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(405, 362);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-            title5.Alignment = System.Drawing.ContentAlignment.TopLeft;
-            title5.BackColor = System.Drawing.Color.Black;
-            title5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
-            title5.ForeColor = System.Drawing.Color.DarkOrange;
-            title5.Name = "title";
-            title5.Text = "      Overall Timeline Chart";
-            this.chart1.Titles.Add(title5);
+            title1.Alignment = System.Drawing.ContentAlignment.TopLeft;
+            title1.BackColor = System.Drawing.Color.Black;
+            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
+            title1.ForeColor = System.Drawing.Color.DarkOrange;
+            title1.Name = "title";
+            title1.Text = "      Overall Timeline Chart";
+            this.chart1.Titles.Add(title1);
             // 
             // tabPage1
             // 
@@ -1324,6 +1325,55 @@
             this.btnSaveConfig.UseVisualStyleBackColor = false;
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.Aquamarine;
+            this.tabPage3.Controls.Add(this.rtbMsgSup);
+            this.tabPage3.Controls.Add(this.txtMsgToSup);
+            this.tabPage3.Controls.Add(this.btnSendMsgToSup);
+            this.tabPage3.Location = new System.Drawing.Point(4, 34);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(429, 662);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Message";
+            // 
+            // rtbMsgSup
+            // 
+            this.rtbMsgSup.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.rtbMsgSup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.rtbMsgSup.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.rtbMsgSup.Location = new System.Drawing.Point(2, 44);
+            this.rtbMsgSup.Name = "rtbMsgSup";
+            this.rtbMsgSup.Size = new System.Drawing.Size(426, 615);
+            this.rtbMsgSup.TabIndex = 9;
+            this.rtbMsgSup.Text = "";
+            this.rtbMsgSup.DoubleClick += new System.EventHandler(this.rtbMsgSup_DoubleClick);
+            // 
+            // txtMsgToSup
+            // 
+            this.txtMsgToSup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMsgToSup.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.txtMsgToSup.Location = new System.Drawing.Point(4, 8);
+            this.txtMsgToSup.Name = "txtMsgToSup";
+            this.txtMsgToSup.Size = new System.Drawing.Size(345, 30);
+            this.txtMsgToSup.TabIndex = 6;
+            this.txtMsgToSup.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMsgToSup_KeyPress);
+            // 
+            // btnSendMsgToSup
+            // 
+            this.btnSendMsgToSup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSendMsgToSup.BackColor = System.Drawing.Color.Green;
+            this.btnSendMsgToSup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.btnSendMsgToSup.Location = new System.Drawing.Point(353, 8);
+            this.btnSendMsgToSup.Name = "btnSendMsgToSup";
+            this.btnSendMsgToSup.Size = new System.Drawing.Size(73, 30);
+            this.btnSendMsgToSup.TabIndex = 7;
+            this.btnSendMsgToSup.Text = "SEND";
+            this.btnSendMsgToSup.UseVisualStyleBackColor = false;
+            this.btnSendMsgToSup.Click += new System.EventHandler(this.btnSendMsgToSup_Click);
+            // 
             // RuningTimer
             // 
             this.RuningTimer.Interval = 500;
@@ -1353,64 +1403,6 @@
             // 
             this.updateChartTimer.Interval = 500;
             this.updateChartTimer.Tick += new System.EventHandler(this.updateChartTimer_Tick);
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.BackColor = System.Drawing.Color.Aquamarine;
-            this.tabPage3.Controls.Add(this.lsMsgSup);
-            this.tabPage3.Controls.Add(this.txtMsgToSup);
-            this.tabPage3.Controls.Add(this.btnSendMsgToSup);
-            this.tabPage3.Location = new System.Drawing.Point(4, 34);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(429, 662);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Message";
-            // 
-            // txtMsgToSup
-            // 
-            this.txtMsgToSup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMsgToSup.Enabled = false;
-            this.txtMsgToSup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.txtMsgToSup.Location = new System.Drawing.Point(6, 580);
-            this.txtMsgToSup.Multiline = true;
-            this.txtMsgToSup.Name = "txtMsgToSup";
-            this.txtMsgToSup.Size = new System.Drawing.Size(345, 79);
-            this.txtMsgToSup.TabIndex = 6;
-            this.txtMsgToSup.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMsgToSup_KeyPress);
-            // 
-            // btnSendMsgToSup
-            // 
-            this.btnSendMsgToSup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSendMsgToSup.BackColor = System.Drawing.Color.Green;
-            this.btnSendMsgToSup.Enabled = false;
-            this.btnSendMsgToSup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnSendMsgToSup.Location = new System.Drawing.Point(353, 580);
-            this.btnSendMsgToSup.Name = "btnSendMsgToSup";
-            this.btnSendMsgToSup.Size = new System.Drawing.Size(73, 79);
-            this.btnSendMsgToSup.TabIndex = 7;
-            this.btnSendMsgToSup.Text = "SEND";
-            this.btnSendMsgToSup.UseVisualStyleBackColor = false;
-            this.btnSendMsgToSup.Click += new System.EventHandler(this.btnSendMsgToSup_Click);
-            // 
-            // lsMsgSup
-            // 
-            this.lsMsgSup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lsMsgSup.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.lsMsgSup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.lsMsgSup.ForeColor = System.Drawing.Color.White;
-            this.lsMsgSup.FormattingEnabled = true;
-            this.lsMsgSup.HorizontalScrollbar = true;
-            this.lsMsgSup.Location = new System.Drawing.Point(0, 0);
-            this.lsMsgSup.Name = "lsMsgSup";
-            this.lsMsgSup.ScrollAlwaysVisible = true;
-            this.lsMsgSup.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.lsMsgSup.Size = new System.Drawing.Size(426, 576);
-            this.lsMsgSup.TabIndex = 8;
-            this.lsMsgSup.DoubleClick += new System.EventHandler(this.lsMsgSup_DoubleClick);
             // 
             // ChatForm
             // 
@@ -1541,9 +1533,9 @@
         private System.Windows.Forms.Label lbCountTrigger;
         private System.Windows.Forms.TextBox txtErrorDescription;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.ListBox lsMsgSup;
         private System.Windows.Forms.TextBox txtMsgToSup;
         private System.Windows.Forms.Button btnSendMsgToSup;
+        private System.Windows.Forms.RichTextBox rtbMsgSup;
     }
 }
 

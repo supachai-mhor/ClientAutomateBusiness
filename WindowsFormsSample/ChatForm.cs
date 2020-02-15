@@ -297,7 +297,7 @@ namespace WindowsFormsSample
         }
         private void OnReceiveMessageToSupervisor(string message)
         {
-            Log(Color.Green, "Supervisor" + ": " + message, lsMsgSup);
+            AddRichTextBoxItem("Supervisor : " + message, Color.Green);
         }
         
         private void OnReceived(string message)
@@ -361,6 +361,7 @@ namespace WindowsFormsSample
                 new SolidBrush(message.MessageColor),
                 e.Bounds);
         }
+
 
         public string getToken()
         {
@@ -1009,43 +1010,69 @@ namespace WindowsFormsSample
                 Log(Color.Red, ex.ToString(), messagesList);
             }
         }
-
-        private void lsMsgSup_DoubleClick(object sender, EventArgs e)
-        {
-            lsMsgSup.Items.Clear();
-        }
-
         private async void btnSendMsgToSup_Click(object sender, EventArgs e)
         {
-            Log(Color.Blue, "Operator" + ": " + txtMsgToSup.Text, lsMsgSup);
-
-            try
+            if (txtMsgToSup.Text != "")
             {
-                //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
-                await _connection.InvokeAsync("SendMessageToSupervisor", txtMsgToSup.Text, DateTime.Now.ToString(), Properties.Settings.Default.SupervisorEmail);
+                AddRichTextBoxItem("Machine : " + txtMsgToSup.Text, Color.Blue);
+                try
+                {
+                    //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
+                    await _connection.InvokeAsync("SendMessageToSupervisor", txtMsgToSup.Text, DateTime.Now.ToString(), Properties.Settings.Default.SupervisorEmail);
+                }
+                catch
+                {
+                    AddRichTextBoxItem("Server : Unsend message to supervisor, please reconnect to server", Color.Red);
+                }
+                txtMsgToSup.Text = "";
             }
-            catch (Exception ex)
-            {
-                Log(Color.Red, "Unsend message to supervisor, please reconnect to server", lsMsgSup);
-            }
+            
         }
 
         private async void txtMsgToSup_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)13)
             {
-                Log(Color.Blue, "Operator" + ": " + txtMsgToSup.Text, lsMsgSup);
+                AddRichTextBoxItem("Machine : " + txtMsgToSup.Text, Color.Blue);
 
                 try
                 {
                     //await _connection.InvokeAsync("Send", "WinFormsApp", messageTextBox.Text);
                     await _connection.InvokeAsync("SendMessageToSupervisor", txtMsgToSup.Text, DateTime.Now.ToString(), Properties.Settings.Default.SupervisorEmail);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Log(Color.Red, "Unsend message to supervisor, please reconnect to server", lsMsgSup);
+                    AddRichTextBoxItem("Server : Unsend message to supervisor, please reconnect to server", Color.Red);
                 }
+
+                txtMsgToSup.Text = "";
             }
+        }
+
+        public delegate void AddRichTextBoxItemDelegate(string item, Color color);
+        public void AddRichTextBoxItem(string item, Color color)
+        {
+
+            if (this.rtbMsgSup.InvokeRequired)
+            {
+                // This is a worker thread so delegate the task.
+                this.rtbMsgSup.Invoke(new AddRichTextBoxItemDelegate(AddRichTextBoxItem), item, color);
+            }
+            else
+            {
+                // This is the UI thread so perform the task.
+
+                rtbMsgSup.SelectionFont = rtbMsgSup.SelectionFont;
+                rtbMsgSup.SelectionColor = color;
+                rtbMsgSup.SelectedText = item + "\n\n";
+
+            }
+
+        }
+
+        private void rtbMsgSup_DoubleClick(object sender, EventArgs e)
+        {
+            rtbMsgSup.Clear();
         }
     }
 }
